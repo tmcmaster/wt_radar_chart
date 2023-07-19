@@ -19,8 +19,8 @@ scripts:
     local_build: flutter build web --release --target lib/main_widgetbook.dart --output ../docs --base-href="/docs/";
     local_serve: (cd ..; open --new http://localhost:8000/docs; python3 -m http.server 8000)
     local_view: open http://localhost:8000/docs;
-    build: flutter build web --release --target lib/main_widgetbook.dart --output ../docs --base-href="/wt_map_menu/" --tree-shake-icons
-    view: open --new https://tmcmaster.github.io/wt_map_menu/
+    build: flutter build web --release --target lib/main_widgetbook.dart --output ../docs --base-href="/wt_radar_chart/" --tree-shake-icons
+    view: open --new https://tmcmaster.github.io/wt_radar_chart/
 
 dependencies:
   cupertino_icons: ^1.0.5
