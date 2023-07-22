@@ -14,6 +14,7 @@ class RadarChart extends StatefulWidget {
   final Color axisColor;
   final List<Color> graphColors;
   final int sides;
+  final double labelSpacing;
 
   const RadarChart({
     super.key,
@@ -38,6 +39,7 @@ class RadarChart extends StatefulWidget {
       Colors.orange,
     ],
     this.sides = 0,
+    this.labelSpacing = 5.0,
   });
 
   @override
@@ -95,6 +97,7 @@ class _RadarCharState extends State<RadarChart> with SingleTickerProviderStateMi
         widget.graphColors,
         widget.sides,
         fraction,
+        widget.labelSpacing,
       ),
     );
   }
@@ -118,6 +121,7 @@ class _RadarChartPainter extends CustomPainter {
   final List<Color> graphColors;
   final int sides;
   final double fraction;
+  final double labelSpacing;
 
   _RadarChartPainter(
     this.ticks,
@@ -131,6 +135,7 @@ class _RadarChartPainter extends CustomPainter {
     this.graphColors,
     this.sides,
     this.fraction,
+    this.labelSpacing,
   );
 
   Path variablePath(Size size, double radius, int sides) {
@@ -212,27 +217,53 @@ class _RadarChartPainter extends CustomPainter {
 
     final angle = (2 * pi) / features.length;
 
+    // Print the labels
     features.asMap().forEach((index, feature) {
-      final xAngle = cos(angle * index - pi / 2);
-      final yAngle = sin(angle * index - pi / 2);
+      final xAngle = double.parse(cos(angle * index - pi / 2).toStringAsFixed(2));
+      final yAngle = double.parse(sin(angle * index - pi / 2).toStringAsFixed(2));
 
-      final featureOffset = Offset(centerX + radius * xAngle, centerY + radius * yAngle);
+      final labelOffset = Offset(
+        xAngle < 0
+            ? -labelSpacing
+            : xAngle > 0
+                ? labelSpacing
+                : 0.0,
+        yAngle < 0
+            ? -labelSpacing
+            : yAngle > 0
+                ? labelSpacing
+                : 0.0,
+      );
+
+      final featureOffset = Offset(
+        centerX + radius * xAngle,
+        centerY + radius * yAngle,
+      );
 
       canvas.drawLine(centerOffset, featureOffset, ticksPaint);
 
       final featureLabelFontHeight = featuresTextStyle.fontSize;
-      final labelYOffset = yAngle < 0 ? -featureLabelFontHeight! : 0;
-      final labelXOffset = xAngle > 0 ? featureOffset.dx : 0.0;
+      final labelYOffset = (yAngle <= 0 ? -featureLabelFontHeight! : 0) + labelOffset.dy;
+      final labelXOffset = (xAngle >= 0 ? featureOffset.dx : 0.0) + labelOffset.dx;
 
       TextPainter(
-        text: TextSpan(text: feature, style: featuresTextStyle),
+        text: TextSpan(
+          text: feature,
+          style: featuresTextStyle,
+        ),
         textAlign: xAngle < 0 ? TextAlign.right : TextAlign.left,
         textDirection: TextDirection.ltr,
       )
         ..layout(minWidth: featureOffset.dx)
-        ..paint(canvas, Offset(labelXOffset, featureOffset.dy + labelYOffset));
+        ..paint(
+            canvas,
+            Offset(
+              labelXOffset,
+              featureOffset.dy + labelYOffset,
+            ));
     });
 
+    // print the polygon
     data.asMap().forEach((index, graph) {
       final graphPaint = Paint()
         ..color = graphColors[index % graphColors.length].withOpacity(0.3)
