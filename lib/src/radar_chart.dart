@@ -1,5 +1,5 @@
-import 'dart:math' show cos, pi, sin;
 import 'dart:math' as math;
+import 'dart:math' show cos, pi, sin;
 
 import 'package:flutter/material.dart';
 
@@ -218,50 +218,53 @@ class _RadarChartPainter extends CustomPainter {
     final angle = (2 * pi) / features.length;
 
     // Print the labels
-    features.asMap().forEach((index, feature) {
-      final xAngle = double.parse(cos(angle * index - pi / 2).toStringAsFixed(2));
-      final yAngle = double.parse(sin(angle * index - pi / 2).toStringAsFixed(2));
+    features.asMap().forEach(
+      (index, feature) {
+        final xAngle = double.parse(cos(angle * index - pi / 2).toStringAsFixed(2));
+        final yAngle = double.parse(sin(angle * index - pi / 2).toStringAsFixed(2));
 
-      final labelOffset = Offset(
-        xAngle < 0
-            ? -labelSpacing
-            : xAngle > 0
-                ? labelSpacing
-                : 0.0,
-        yAngle < 0
-            ? -labelSpacing
-            : yAngle > 0
-                ? labelSpacing
-                : 0.0,
-      );
+        final labelOffset = Offset(
+          xAngle < 0
+              ? -labelSpacing
+              : xAngle > 0
+                  ? labelSpacing
+                  : 0.0,
+          yAngle < 0
+              ? -labelSpacing
+              : yAngle > 0
+                  ? labelSpacing
+                  : 0.0,
+        );
 
-      final featureOffset = Offset(
-        centerX + radius * xAngle,
-        centerY + radius * yAngle,
-      );
+        final featureOffset = Offset(
+          centerX + radius * xAngle,
+          centerY + radius * yAngle,
+        );
 
-      canvas.drawLine(centerOffset, featureOffset, ticksPaint);
+        canvas.drawLine(centerOffset, featureOffset, ticksPaint);
 
-      final featureLabelFontHeight = featuresTextStyle.fontSize;
-      final labelYOffset = (yAngle <= 0 ? -featureLabelFontHeight! : 0) + labelOffset.dy;
-      final labelXOffset = (xAngle >= 0 ? featureOffset.dx : 0.0) + labelOffset.dx;
+        final featureLabelFontHeight = featuresTextStyle.fontSize;
+        final labelYOffset = (yAngle <= 0 ? -featureLabelFontHeight! : 0) + labelOffset.dy;
+        final labelXOffset = (xAngle >= 0 ? featureOffset.dx : 0.0) + labelOffset.dx;
 
-      TextPainter(
-        text: TextSpan(
-          text: feature,
-          style: featuresTextStyle,
-        ),
-        textAlign: xAngle < 0 ? TextAlign.right : TextAlign.left,
-        textDirection: TextDirection.ltr,
-      )
-        ..layout(minWidth: featureOffset.dx)
-        ..paint(
+        TextPainter(
+          text: TextSpan(
+            text: feature,
+            style: featuresTextStyle,
+          ),
+          textAlign: xAngle < 0 ? TextAlign.right : TextAlign.left,
+          textDirection: TextDirection.ltr,
+        )
+          ..layout(minWidth: featureOffset.dx)
+          ..paint(
             canvas,
             Offset(
               labelXOffset,
               featureOffset.dy + labelYOffset,
-            ));
-    });
+            ),
+          );
+      },
+    );
 
     // print the polygon
     data.asMap().forEach((index, graph) {

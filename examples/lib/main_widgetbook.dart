@@ -42,12 +42,15 @@ void main() {
           ),
         ),
         directories: [
-          WidgetbookComponent(name: 'Radar Chart', useCases: [
-            WidgetbookUseCase(
-              name: 'Smoke Test',
-              builder: (_) => const DemoPage(),
-            ),
-          ]),
+          WidgetbookComponent(
+            name: 'Radar Chart',
+            useCases: [
+              WidgetbookUseCase(
+                name: 'Smoke Test',
+                builder: (_) => const DemoPage(),
+              ),
+            ],
+          ),
         ],
       ),
     ),

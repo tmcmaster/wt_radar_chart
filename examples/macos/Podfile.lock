@@ -20,7 +20,7 @@ PODS:
   - Firebase/RemoteConfig (10.12.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.12.0)
-  - firebase_auth (4.7.0):
+  - firebase_auth (4.7.1):
     - Firebase/Auth (~> 10.12.0)
     - Firebase/CoreOnly (~> 10.12.0)
     - firebase_core
@@ -163,7 +163,7 @@ SPEC CHECKSUMS:
   cloud_functions: e1953328aad60c8c9210b396b7b24e8e22a9afda
   desktop_webview_auth: 9bba53a29c9bc6a4ff621fd0ebfbb18856c4dada
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
-  firebase_auth: a6f73ee5d4a7df8eabcf1a72aa54575f8f768016
+  firebase_auth: 4998fb672bdb2e1af0c1b9b0103aa4406e6eac7d
   firebase_core: ff59797157ca9adda4440071643761b41fcd03b3
   firebase_database: ff4c34d3e81b6d55f73286e370924fc16cf88875
   firebase_remote_config: 14b62e153e9d5299d539e2fd803a4872a3cc5a09

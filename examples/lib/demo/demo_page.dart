@@ -18,7 +18,7 @@ class DemoPage extends StatefulWidget {
     for (int group = 0; group < 8; group++)
       'Group ${group + 1}': Iterable.generate(random.nextInt(3) + 2)
           .map((e) => Iterable.generate(features.length).map((_) => random.nextInt(5) + 1).toList())
-          .toList()
+          .toList(),
   };
 
   const DemoPage({super.key});
@@ -75,7 +75,7 @@ class _DemoPageState extends State<DemoPage> {
               data: DemoPage.dataSetMap[group]!,
               labelSpacing: 10,
             ),
-          )
+          ),
         ],
       ),
     );
